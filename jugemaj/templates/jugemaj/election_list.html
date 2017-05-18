@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<ul>
+  {% for election in election_list %}
+  <li><a href="{{ election.get_absolute_url }}">{{ election }}</a></li>
+  {% endfor %}
+  <li><a href="{% url "jugemaj:create_election" %}">Nouvelle</a></li>
+</ul>
+{% endblock %}
