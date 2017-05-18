@@ -43,7 +43,7 @@ class Candidate(models.Model):
     def votes(self):
         percent = self.vote_set.count()
         if percent:
-            percent *= 100
+            percent = 100 / percent
         return [self.vote_set.filter(choice=i).count() * percent for i in CHOICES]
 
 
