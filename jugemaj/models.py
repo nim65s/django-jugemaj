@@ -1,4 +1,5 @@
 from enum import IntEnum
+from math import floor
 
 from django.db import models
 from django.conf import settings
@@ -21,7 +22,6 @@ class Election(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     ended = models.BooleanField("fini", default=False)
     end = models.DateTimeField("fin")
-    hide = models.BooleanField("cacher les votes avant la fin", default=False)
 
     def __str__(self):
         return self.title
@@ -29,10 +29,14 @@ class Election(models.Model):
     def get_absolute_url(self):
         return reverse('jugemaj:election', kwargs={'slug': self.slug})
 
+    def results(self):
+        return sorted([candidate.votes() for candidate in self.candidate_set.all()])
+
 
 class Candidate(models.Model):
     name = models.CharField("nom", max_length=250)
     election = models.ForeignKey(Election)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -42,8 +46,10 @@ class Candidate(models.Model):
 
     def votes(self):
         count = self.vote_set.count()
-        percent = 100 / count if count else 0
-        return count, [self.vote_set.filter(choice=i).count() * percent for i in CHOICES]
+        if count:
+            mention = self.vote_set.order_by('choice')[min(floor(count / 2), count - 1)].choice
+            return mention, count, [self.vote_set.filter(choice=i).count() * 100 / count for i in CHOICES], self.name
+        return 0, 0, [], self.name
 
 
 class Vote(models.Model):
@@ -51,6 +57,7 @@ class Vote(models.Model):
     elector_name = models.CharField("votre nom", max_length=250, null=True)
     candidate = models.ForeignKey(Candidate)
     choice = models.IntegerField("choix", choices=enum_to_choices(CHOICES), null=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     @property
     def elector(self):
@@ -58,3 +65,6 @@ class Vote(models.Model):
 
     def __str__(self):
         return f"vote de {self.elector} pour {self.candidate}"
+
+    class Meta:
+        ordering = ('created',)

@@ -1,26 +1,21 @@
 {% extends "base.html" %}
+{% load jugemaj %}
 
 {% block content %}
 <h1>{{ election }}</h1>
 
-<p class="pull-right">
-Élection{% if election.ended %} <b>terminée</b> {% endif %}
-crée par {{ election.creator }} le {{ election.created }}.<br>
-Fin le {{ election.end }}</p>
-
-<h2>Candidats</h2>
 <div>
-  {% for candidate in election.candidate_set.all %}
+  {% for mention, count, votes, name in election.results %}
   <div class="container">
-    {% with votes=candidate.votes %}
-    <div class="col-md-3"><b>{{ candidate }}</b>: {{ votes.0 }} vote{{ votes.0|pluralize }} </div>
-    <div class="col-md-9">{% include "jugemaj/bar.html" with votes=votes.1 %}</div>
-    {% endwith %}
+    <div class="col-md-3"><b>{{ name }}</b>: {{ mention|choices }} ({{ count }} vote{{ count|pluralize }})</div>
+    <div class="col-md-9">{% include "jugemaj/bar.html" %}</div>
   </div>
   {% endfor %}
-  <li><a href="{% url "jugemaj:create_candidate" slug=election.slug %}">Nouveau</a></li>
 </div>
 
-<p><a href="{% url "jugemaj:vote_auth" slug=election.slug %}">voter</a></p>
+<p class="text-center">
+<a class="btn btn-info" href="{% url "jugemaj:create_candidate" slug=election.slug %}">Nouveau</a>
+<a class="btn btn-primary" href="{% url "jugemaj:vote" slug=election.slug %}">voter</a>
+</p>
 
 {% endblock %}

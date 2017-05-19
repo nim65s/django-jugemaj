@@ -34,7 +34,6 @@ class Migration(migrations.Migration):
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('ended', models.BooleanField(default=False, verbose_name='fini')),
                 ('end', models.DateTimeField(verbose_name='fin')),
-                ('hide', models.BooleanField(default=False, verbose_name='cacher les votes avant la fin')),
                 ('creator', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),

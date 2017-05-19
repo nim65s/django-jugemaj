@@ -19,28 +19,24 @@ class ElectionListView(ListView):
 
 class ElectionCreateView(LoginRequiredMixin, CreateView):
     model = Election
-    fields = ("title", "description", "end", "hide")
+    fields = ("title", "description", "end")
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
 
 
-class CandidateCreateView(UserPassesTestMixin, CreateView):
+class CandidateCreateView(LoginRequiredMixin, CreateView):
     model = Candidate
     fields = ("name",)
 
-    def test_func(self):
-        self.election = get_object_or_404(Election, slug=self.kwargs.get("slug"))
-        return self.election.creator == self.request.user or self.request.user.is_superuser
-
     def form_valid(self, form):
-        form.instance.election = self.election
+        form.instance.election = get_object_or_404(Election, slug=self.kwargs.get("slug"))
         return super().form_valid(form)
 
 
 @login_required
-def vote_auth(request, slug):
+def vote(request, slug):
     election = get_object_or_404(Election, slug=slug)
     candidates = {}
     for candidate in election.candidate_set.all():
@@ -56,4 +52,4 @@ def vote_auth(request, slug):
         messages.error(request, "Corrigez les erreurs")
     else:
         formset = VoteFormSet(queryset=votes)
-    return render(request, "jugemaj/vote_auth.html", {"formset": formset, "candidates": candidates})
+    return render(request, "jugemaj/vote.html", {"formset": formset, "candidates": candidates})
