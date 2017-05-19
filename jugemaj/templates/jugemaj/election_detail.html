@@ -4,6 +4,8 @@
 {% block content %}
 <h1>{{ election }}</h1>
 
+<p>{{ election.description }}</p>
+
 <div>
   {% for mention, count, votes, name in election.results %}
   <div class="container">

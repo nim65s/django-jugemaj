@@ -12,4 +12,4 @@ def candidate(candidate, candidates):
 
 @register.filter
 def choices(mention):
-    return CHOICES(mention).name
+    return CHOICES(mention).name if mention else "rien"

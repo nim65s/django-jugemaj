@@ -17,9 +17,12 @@ class ElectionListView(ListView):
     model = Election
 
 
-class ElectionCreateView(LoginRequiredMixin, CreateView):
+class ElectionCreateView(UserPassesTestMixin, CreateView):
     model = Election
     fields = ("title", "description", "end")
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
