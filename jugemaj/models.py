@@ -41,10 +41,9 @@ class Candidate(models.Model):
         return self.election.get_absolute_url()
 
     def votes(self):
-        percent = self.vote_set.count()
-        if percent:
-            percent = 100 / percent
-        return [self.vote_set.filter(choice=i).count() * percent for i in CHOICES]
+        count = self.vote_set.count()
+        percent = 100 / count if count else 0
+        return count, [self.vote_set.filter(choice=i).count() * percent for i in CHOICES]
 
 
 class Vote(models.Model):
