@@ -30,7 +30,23 @@ class Election(models.Model):
         return reverse('jugemaj:election', kwargs={'slug': self.slug})
 
     def results(self):
-        return sorted([candidate.votes() for candidate in self.candidate_set.all()])
+        results = sorted([candidate.votes() for candidate in self.candidate_set.all()])
+        lsts = self.results_split(results)
+        print('first', {l[0][0]: len(l) for l in lsts})
+        lsts = [self.results_split(sorted([item[-1].votes(exclude=lst[0][0]) for item in lst]))
+                if len(lst) != 1 else lst for lst in lsts]
+        print('last', lsts)
+        return results
+
+    def results_split(self, results):
+        mention = -1
+        lsts = []
+        for result in results:
+            if mention != result[0]:
+                lsts.append([])
+                mention = result[0]
+            lsts[-1].append(result)
+        return lsts
 
 
 class Candidate(models.Model):
@@ -44,12 +60,12 @@ class Candidate(models.Model):
     def get_absolute_url(self):
         return self.election.get_absolute_url()
 
-    def votes(self):
-        count = self.vote_set.count()
+    def votes(self, exclude=None):
+        count = self.vote_set.exclude(choice=exclude).count()
         if count:
-            mention = self.vote_set.order_by('choice')[min(floor(count / 2), count - 1)].choice
-            return mention, count, [self.vote_set.filter(choice=i).count() * 100 / count for i in CHOICES], self.name
-        return 0, 0, [], self.name
+            mention = self.vote_set.exclude(choice=exclude).order_by('choice')[min(floor(count / 2), count - 1)].choice
+            return mention, count, [self.vote_set.filter(choice=i).count() * 100 / count for i in CHOICES], self
+        return 0, 0, [], self
 
 
 class Vote(models.Model):

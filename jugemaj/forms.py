@@ -1,6 +1,5 @@
 from django import forms
-
-from .models import Vote, CHOICES
+from .models import Vote
 
 
 VoteFormSet = forms.modelformset_factory(Vote, fields=('candidate', 'choice',), extra=0,
