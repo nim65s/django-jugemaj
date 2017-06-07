@@ -43,9 +43,9 @@ def vote(request, slug):
     election = get_object_or_404(Election, slug=slug)
     candidates = {}
     for candidate in election.candidate_set.all():
-        Vote.objects.get_or_create(elector_fk=request.user, candidate=candidate)
+        Vote.objects.get_or_create(elector=request.user, candidate=candidate)
         candidates[candidate.pk] = candidate.name
-    votes = Vote.objects.filter(elector_fk=request.user, candidate__election=election)
+    votes = Vote.objects.filter(elector=request.user, candidate__election=election)
     if request.method == "POST":
         formset = VoteFormSet(request.POST, queryset=votes)
         if formset.is_valid():

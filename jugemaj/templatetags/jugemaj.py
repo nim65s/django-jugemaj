@@ -11,5 +11,5 @@ def candidate(candidate, candidates):
 
 
 @register.filter
-def choices(mention):
-    return CHOICES(mention).name if mention else "rien"
+def mentions(candidate):
+    return ', '.join(CHOICES(mention).name for mention in candidate.mentions())

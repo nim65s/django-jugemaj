@@ -11,4 +11,4 @@ def randstr():
 def create_user(election=Election.objects.first()):
     user = User.objects.create(username=randstr(), password=randstr())
     for candidate in election.candidate_set.all():
-        Vote.objects.create(elector_fk=user, candidate=candidate, choice=randint(1, 6))
+        Vote.objects.create(elector=user, candidate=candidate, choice=randint(1, 6))
