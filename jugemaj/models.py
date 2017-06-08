@@ -1,5 +1,4 @@
 from enum import IntEnum
-from math import floor
 
 from django.db import models
 from django.conf import settings
