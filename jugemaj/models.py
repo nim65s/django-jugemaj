@@ -81,9 +81,9 @@ class Candidate(TimeStampedModel):
         count = self.vote_set.count()
         if not count:
             return (0, 10, 0)
-        mention = [self.vote_set.order_by('choice')[count // 2].choice]
-        return (self.vote_set.filter(choice_gt=mention).count() / count, mention,
-                self.vote_set.filter(choice_lt=mention).count() / count)
+        mention = self.vote_set.order_by('choice')[count // 2].choice
+        return (self.vote_set.filter(choice__gt=mention).count() / count, mention,
+                self.vote_set.filter(choice__lt=mention).count() / count)
 
     def votes(self):
         count = self.vote_set.count()

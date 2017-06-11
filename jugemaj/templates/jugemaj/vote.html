@@ -7,7 +7,7 @@
   {% bootstrap_form formset.management_form %}
   {% for form in formset %}
   <div class="form-group">
-    <label class="col-md-3 control-label">{{ form.hidden_fields.0.value|candidate:candidates }}</label>
+    <label class="col-md-3 control-label">{{ form.hidden_fields.0.value|candidate:candidates }}:</label>
     <div class="col-md-9">
       {% for field in form.hidden_fields %}{{ field }}{% endfor %}
       {% for field in form.visible_fields %}
