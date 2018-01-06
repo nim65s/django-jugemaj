@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.auth.models import User
 
 from .models import Election, Candidate
@@ -17,7 +17,7 @@ class JugeMajTests(TestCase):
         self.client.login(username='a', password='a')
         self.assertEqual(self.client.get(reverse('jugemaj:create_election')).status_code, 200)
         r = self.client.post(reverse('jugemaj:create_election'), {
-            'title': 'Élection du roi de Vénus',
+            'name': 'Élection du roi de Vénus',
             'description': 'Vénus n’a plus de roi, qui pensez-vous des candidats suivants ?',
             'end': '2025-03-09',
         })

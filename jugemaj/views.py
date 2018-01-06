@@ -1,9 +1,10 @@
 from django.views.generic import CreateView, DetailView, ListView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 
+from ndh.mixins import SuperUserRequiredMixin
 
 from .models import Election, Candidate, Vote
 from .forms import VoteFormSet
@@ -17,12 +18,9 @@ class ElectionListView(ListView):
     model = Election
 
 
-class ElectionCreateView(UserPassesTestMixin, CreateView):
+class ElectionCreateView(SuperUserRequiredMixin, CreateView):
     model = Election
-    fields = ("title", "description", "end")
-
-    def test_func(self):
-        return self.request.user.is_superuser
+    fields = ("name", "description", "end")
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
