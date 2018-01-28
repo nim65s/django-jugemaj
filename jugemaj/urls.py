@@ -1,7 +1,6 @@
 from django.urls import path
 
-from .views import ElectionCreateView, CandidateCreateView, vote, ElectionDetailView, ElectionListView
-
+from .views import CandidateCreateView, ElectionCreateView, ElectionDetailView, ElectionListView, vote
 
 app_name = 'jugemaj'
 urlpatterns = [

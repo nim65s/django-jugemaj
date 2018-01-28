@@ -1,14 +1,14 @@
 from enum import IntEnum
 from functools import cmp_to_key
 
-from django.db import models
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.db import models
 from django.urls import reverse
 
+from ndh.models import NamedModel, TimeStampedModel
 from ndh.utils import enum_to_choices
-from ndh.models import TimeStampedModel, NamedModel
 
 CHOICES = IntEnum("choix", "Super Bien OK Passable Insuffisant Nul")
 

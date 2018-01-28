@@ -1,13 +1,13 @@
-from django.views.generic import CreateView, DetailView, ListView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic import CreateView, DetailView, ListView
 
 from ndh.mixins import SuperUserRequiredMixin
 
-from .models import Election, Candidate, NamedCandidate, Vote
-from .forms import VoteFormSet, ElectionForm
+from .forms import ElectionForm, VoteFormSet
+from .models import Candidate, Election, NamedCandidate, Vote
 
 
 class ElectionDetailView(DetailView):
