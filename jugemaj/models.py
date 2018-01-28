@@ -3,6 +3,8 @@ from functools import cmp_to_key
 
 from django.db import models
 from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.urls import reverse
 
 from ndh.utils import enum_to_choices
@@ -51,8 +53,14 @@ class Election(NamedModel, TimeStampedModel):
         return sorted(self.candidate_set.all(), key=cmp_to_key(sort_candidates))
 
 
-class Candidate(NamedModel, TimeStampedModel):
+class Candidate(models.Model):
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    def __str__(self):
+        return str(self.content_object)
 
     def get_absolute_url(self):
         return self.election.get_absolute_url()
@@ -62,6 +70,9 @@ class Candidate(NamedModel, TimeStampedModel):
         if not count:
             return (0, 10, 0)
         mention = self.vote_set.order_by('choice')[count // 2].choice
+        if mention is None:
+            print(self.vote_set.order_by('choice'))
+            mention = 6
         return (self.vote_set.filter(choice__gt=mention).count() / count, mention,
                 self.vote_set.filter(choice__lt=mention).count() / count)
 
@@ -70,6 +81,11 @@ class Candidate(NamedModel, TimeStampedModel):
         if count:
             return [self.vote_set.filter(choice=i).count() * 100 / count for i in CHOICES]
         return [0] * len(CHOICES)
+
+
+class NamedCandidate(NamedModel, TimeStampedModel):
+    def get_absolute_url(self):
+        return reverse('jugemaj:candidate', kwargs={'slug': self.slug})
 
 
 class Vote(TimeStampedModel):

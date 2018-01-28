@@ -1,13 +1,14 @@
-from django.conf.urls import url
+from django.urls import path
 
 from .views import ElectionCreateView, CandidateCreateView, vote, ElectionDetailView, ElectionListView
 
 
 app_name = 'jugemaj'
 urlpatterns = [
-    url(r'^$', ElectionListView.as_view(), name='elections'),
-    url(r'^election$', ElectionCreateView.as_view(), name='create_election'),
-    url(r'^election/(?P<slug>[^/]+)/$', ElectionDetailView.as_view(), name='election'),
-    url(r'^election/(?P<slug>[^/]+)/candidate$', CandidateCreateView.as_view(), name='create_candidate'),
-    url(r'^election/(?P<slug>[^/]+)/vote$', vote, name='vote'),
+    path('', ElectionListView.as_view(), name='elections'),
+    path('election', ElectionCreateView.as_view(), name='create_election'),
+    path('election/<slug:slug>', ElectionDetailView.as_view(), name='election'),
+    path('election/<slug:slug>/candidate', CandidateCreateView.as_view(), name='create_candidate'),
+    path('election/<slug:slug>/vote', vote, name='vote'),
+    path('candidate/<slug:slug>', vote, name='candidate'),
 ]
