@@ -4,6 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+setuptools-scm = "*"
+mypy = "*"
+pydocstyle = "*"
+pre-commit = "*"
+django-stubs = "*"
 
 [packages]
 ndh = "*"
