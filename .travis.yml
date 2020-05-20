@@ -12,6 +12,7 @@ script:
   - PYTHONWARNINGS=always coverage run manage.py test
   - flake8 .
   - yapf -dr .
+  - mypy .
   - safety check
 after_success:
   - coveralls

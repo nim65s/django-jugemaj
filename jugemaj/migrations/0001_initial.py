@@ -4,7 +4,7 @@ import django.db.models.deletion
 from django.conf import settings
 from django.db import migrations, models
 
-import autoslug.fields
+import autoslug.fields  # type: ignore
 
 
 class Migration(migrations.Migration):
