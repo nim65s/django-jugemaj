@@ -1,3 +1,4 @@
+"""Django tests for the jugemaj app."""
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
@@ -6,12 +7,15 @@ from .models import Candidate, Election
 
 
 class JugeMajTests(TestCase):
+    """Mais class for the tests."""
     def setUp(self):
+        """Create a bunch of users for the other tests."""
         a, b, c = (User.objects.create_user(guy, email='%s@example.org' % guy, password=guy) for guy in 'abc')
         a.is_superuser = True
         a.save()
 
     def test_views(self):
+        """Test the django views in the jugemaj app."""
         self.assertEqual(self.client.get(reverse('jugemaj:elections')).status_code, 200)
         self.assertEqual(self.client.get(reverse('jugemaj:create_election')).status_code, 302)
         self.client.login(username='a', password='a')

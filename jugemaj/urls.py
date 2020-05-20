@@ -1,3 +1,4 @@
+"""Django URLs for the jugemaj app."""
 from django.urls import path
 
 from .views import CandidateCreateView, ElectionCreateView, ElectionDetailView, ElectionListView, vote

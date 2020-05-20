@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""Manage the test project."""
 import os
 import sys
 

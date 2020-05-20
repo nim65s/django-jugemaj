@@ -1,3 +1,4 @@
+"""Register jugemaj models in django admin."""
 from django.contrib.admin import site
 
 from .models import Candidate, Election, Vote

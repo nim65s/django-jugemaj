@@ -1,3 +1,4 @@
+"""Django forms for the jugemaj app."""
 from django import forms
 
 from ndh.forms import AccessibleDateTimeField
@@ -17,8 +18,10 @@ VoteFormSet = forms.modelformset_factory(Vote,
 
 
 class ElectionForm(forms.ModelForm):
+    """Form for the Election model."""
     end = AccessibleDateTimeField()
 
     class Meta:
+        """Declare the model and fields for this form."""
         model = Election
         fields = ("name", "description", "end")
