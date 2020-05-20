@@ -4,8 +4,12 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
-git+https://github.com/nim65s/django-autoslug#egg=django-autoslug
-django-bootstrap3==9.1.0
-django==2.0.1
-git+https://github.com/nim65s/ndh.git#egg=ndh
+beautifulsoup4==4.9.1     # via django-bootstrap4
+git+https://github.com/nim65s/django-autoslug#egg=django-autoslug  # via -r requirements.in, ndh
+django-bootstrap3==9.1.0  # via -r requirements.in
+django-bootstrap4==1.1.1  # via ndh
+django==2.2.10            # via -r requirements.in, ndh
+git+https://github.com/nim65s/ndh.git#egg=ndh  # via -r requirements.in
 pytz==2017.3              # via django
+soupsieve==2.0.1          # via beautifulsoup4
+sqlparse==0.3.1           # via django
