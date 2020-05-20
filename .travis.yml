@@ -12,6 +12,5 @@ script:
   - PYTHONWARNINGS=always coverage run manage.py test
   - flake8 .
   - safety check
-  - pip install "git+https://github.com/${TRAVIS_REPO_SLUG}.git#egg=jugemaj"
 after_success:
   - coveralls
