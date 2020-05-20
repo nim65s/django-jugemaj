@@ -29,7 +29,7 @@ class ElectionCreateView(SuperUserRequiredMixin, CreateView):
 
 class CandidateCreateView(LoginRequiredMixin, CreateView):
     model = NamedCandidate
-    fields = ("name",)
+    fields = ("name", )
 
     def form_valid(self, form):
         ret = super().form_valid(form)

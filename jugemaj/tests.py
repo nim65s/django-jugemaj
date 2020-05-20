@@ -16,11 +16,13 @@ class JugeMajTests(TestCase):
         self.assertEqual(self.client.get(reverse('jugemaj:create_election')).status_code, 302)
         self.client.login(username='a', password='a')
         self.assertEqual(self.client.get(reverse('jugemaj:create_election')).status_code, 200)
-        r = self.client.post(reverse('jugemaj:create_election'), {
-            'name': 'Élection du roi de Vénus',
-            'description': 'Vénus n’a plus de roi, qui pensez-vous des candidats suivants ?',
-            'end_0': '2025-03-09', 'end_1': '03:19:45',
-        })
+        r = self.client.post(
+            reverse('jugemaj:create_election'), {
+                'name': 'Élection du roi de Vénus',
+                'description': 'Vénus n’a plus de roi, qui pensez-vous des candidats suivants ?',
+                'end_0': '2025-03-09',
+                'end_1': '03:19:45',
+            })
         self.assertEqual(r.status_code, 302)
         self.assertEqual(Election.objects.count(), 1)
         slug = Election.objects.first().slug
