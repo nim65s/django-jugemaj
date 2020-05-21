@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "django-jugemaj"
 packages = [{ include = 'jugemaj' }]
-version = "2.0.0"
+version = "2.0.1"
 description = "A Django app for the Majority Judgment voting system"
 authors = ["Guilhem Saurel <guilhem.saurel@laas.fr>"]
 license = "BSD-2-Clause"
