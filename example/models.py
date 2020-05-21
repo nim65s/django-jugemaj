@@ -14,20 +14,20 @@ class WikiDataModel(models.Model, Links):
 
     This is populated with a list of cats in the second migration.
     """
-    label = models.CharField(max_length=50, blank=True)
+    name = models.CharField(max_length=50, blank=True)
     wikidata = models.PositiveIntegerField()
 
     def __str__(self):
-        """Get the label of this wikidata instance."""
-        return self.label
+        """Get the name of this wikidata instance."""
+        return self.name
 
     @property
     def wikidata_url(self):
         """Get a direct link to the wikidata item."""
         return f'https://www.wikidata.org/wiki/Q{self.wikidata}'
 
-    def update_label(self):
-        """Update the label from wikidata."""
+    def update_name(self):
+        """Update the name from wikidata."""
         labels = Client().get(f'Q{self.wikidata}', load=True).data['labels']
-        self.label = next(labels[lang] for lang in LANGS if lang in labels)['value']
+        self.name = next(labels[lang] for lang in LANGS if lang in labels)['value']
         self.save()

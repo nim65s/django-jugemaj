@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             name='WikiDataModel',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('label', models.CharField(blank=True, max_length=50)),
+                ('name', models.CharField(blank=True, max_length=50)),
                 ('wikidata', models.PositiveIntegerField()),
             ],
             bases=(models.Model, ndh.models.Links),

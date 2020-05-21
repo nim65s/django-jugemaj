@@ -19,8 +19,8 @@ def get_all_cats(apps, schema_editor):
     req = requests.get('https://query.wikidata.org/sparql', params={'format': 'json', 'query': QUERY})
     for result in req.json()['results']['bindings']:
         wikidata = int(result['item']['value'].split('/')[-1][1:])
-        label = result['itemLabel']['value']
-        WikiDataModel.objects.create(label=label, wikidata=wikidata)
+        name = result['itemLabel']['value']
+        WikiDataModel.objects.create(name=name, wikidata=wikidata)
 
 
 def delete_all_cats(apps, schema_editor):
