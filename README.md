@@ -1,4 +1,6 @@
 # Jugement Majoritaire
+[![Documentation Status](https://readthedocs.org/projects/django-jugemaj/badge/?version=latest)](https://django-jugemaj.readthedocs.io/en/latest/?badge=latest)
+[![PyPI version](https://badge.fury.io/py/django-jugemaj.svg)](https://pypi.org/project/django-jugemaj)
 [![Build Status](https://travis-ci.org/nim65s/django-jugemaj.svg?branch=master)](https://travis-ci.org/nim65s/django-jugemaj)
 [![Coverage Status](https://coveralls.io/repos/github/nim65s/django-jugemaj/badge.svg?branch=master)](https://coveralls.io/github/nim65s/django-jugemaj?branch=master)
 
