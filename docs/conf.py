@@ -19,8 +19,6 @@ import django
 
 from recommonmark.transform import AutoStructify  # type: ignore
 
-import jugemaj
-
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "testproject.settings")
 sys.path.insert(0, os.path.abspath('..'))
 django.setup()
@@ -30,8 +28,6 @@ django.setup()
 project = 'django-jugemaj'
 copyright = '2020, Guilhem Saurel'
 author = 'Guilhem Saurel'
-
-release = jugemaj.__version__
 
 # -- General configuration ---------------------------------------------------
 
