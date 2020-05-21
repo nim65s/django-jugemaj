@@ -8,10 +8,13 @@ Application de vote par [Jugement Majoritaire](https://fr.wikipedia.org/wiki/Jug
 
 ## Requirements
 
-- Python >= 3.6
-- [Django](https://pypi.python.org/pypi/Django) >= 1.10
-- [django-autoslug](https://pypi.python.org/pypi/django-autoslug)
-- [django-bootstrap4](https://pypi.python.org/pypi/django-bootstrap4)
+- [ndh](https://pypi.python.org/pypi/ndh) (which requires [django](https://www.djangoproject.com/),
+  [django-autoslug](https://github.com/justinmayer/django-autoslug/),
+  [django-bootstrap4](https://github.com/zostera/django-bootstrap4) (can be made optional on request))
+
+Tested with:
+- Python 3.6, 3.7, 3.8
+- [Django](https://www.djangoproject.com/) 1.10, 1.11, 2.0, 2.1, 2.2, 3.0
 
 ## Theory
 
