@@ -16,29 +16,28 @@ CHOICES = IntEnum("choix", "Super Bien OK Passable Insuffisant Nul")
 
 def sort_candidates(a, b):
     """
-    Sort candidates by their majority gauge.
+    Sort candidates a & b by their majority gauge.
 
-    a & b are the majority gauges of the candidates A & B
-    (p_A, α_A, q_A) & (p_B, α_B, q_B)
-    where
     - α is the majority grade;
     - p the percentage of votes strictly above α;
     - q the percentage of votes strictly below α.
-    thus, A > B ⇔ α_A > α_B || (α_A == α_B && (p_A > max(q_A, p_B, q_B) || q_B > max(p_A, q_A, p_B)))
-    (eq. 2, p.11 of the second article in README.md)
+
+    a > b ⇔ a_α > b_α || (a_α == b_α && (a_p > max(a_q, b_p, b_q) || b_q > max(a_p, a_q, b_p)))
+
+    (ref eq. 2, p.11 of the second article in README.md)
     """
-    a, b = a.majority_gauge(), b.majority_gauge()
-    if a[1] > b[1]:
+    (a_p, a_α, a_q), (b_p, b_α, b_q) = a.majority_gauge(), b.majority_gauge()
+    if a_α > b_α:
         return 1
-    if b[1] > a[1]:
+    if b_α > a_α:
         return -1
-    if a[0] > max(a[2], b[0], b[2]):
+    if a_p > max(a_q, b_p, b_q):
         return 1
-    if b[0] > max(b[2], a[0], a[2]):
+    if b_p > max(b_q, a_p, a_q):
         return -1
-    if b[2] > max(a[0], a[2], b[0]):
+    if b_q > max(a_p, a_q, b_p):
         return 1
-    if a[2] > max(b[0], b[2], a[0]):
+    if a_q > max(b_p, b_q, a_p):
         return -1
     return 0
 

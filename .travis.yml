@@ -21,5 +21,7 @@ script:
   - mypy .
   - pydocstyle
   - test -n "${DJANGO_LT}" || safety check
+  - sphinx-build docs build
+  - pip install "git+https://github.com/${TRAVIS_REPO_SLUG}.git#egg=jugemaj"
 after_success:
   - coveralls
