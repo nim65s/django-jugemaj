@@ -1,3 +1,4 @@
+exclude: ".*/migrations"
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.1.0
@@ -39,3 +40,4 @@ repos:
         -   django-bootstrap4
         -   django-stubs
         -   ndh
+        -   wikidata

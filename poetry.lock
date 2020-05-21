@@ -26,7 +26,7 @@ version = "3.2.7"
 tests = ["pytest (>=4.3.0,<4.4.0)", "pytest-asyncio (>=0.10.0,<0.11.0)"]
 
 [[package]]
-category = "dev"
+category = "main"
 description = "Internationalization utilities"
 name = "babel"
 optional = false
@@ -714,6 +714,17 @@ docs = ["sphinx (>=3)", "sphinx-argparse (>=0.2.5)", "sphinx-rtd-theme (>=0.4.3)
 testing = ["pytest (>=4)", "coverage (>=5)", "coverage-enable-subprocess (>=1)", "pytest-xdist (>=1.31.0)", "pytest-mock (>=2)", "pytest-env (>=0.6.2)", "pytest-randomly (>=1)", "pytest-timeout", "packaging (>=20.0)", "xonsh (>=0.9.16)"]
 
 [[package]]
+category = "main"
+description = "Wikidata client library"
+name = "wikidata"
+optional = true
+python-versions = ">=3.4.0"
+version = "0.6.1"
+
+[package.dependencies]
+Babel = ">=2.0"
+
+[[package]]
 category = "dev"
 description = "A formatter for Python code."
 name = "yapf"
@@ -735,7 +746,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "2e1a8e87f0dc5f26a11d780252e622252cd93ac70b76de4dc759dcfcc4606b3d"
+content-hash = "9cb22537663de0b230ec9c32a134f3d3bf664c1f03aa409241002853e19e2a98"
 python-versions = "^3.6.1"
 
 [metadata.files]
@@ -1087,6 +1098,10 @@ urllib3 = [
 virtualenv = [
     {file = "virtualenv-20.0.21-py2.py3-none-any.whl", hash = "sha256:a730548b27366c5e6cbdf6f97406d861cccece2e22275e8e1a757aeff5e00c70"},
     {file = "virtualenv-20.0.21.tar.gz", hash = "sha256:a116629d4e7f4d03433b8afa27f43deba09d48bc48f5ecefa4f015a178efb6cf"},
+]
+wikidata = [
+    {file = "Wikidata-0.6.1-py3-none-any.whl", hash = "sha256:72998341af4fc3484ae46d6f6e140334325508dcebe3ab80fe5dbe84931c9f66"},
+    {file = "Wikidata-0.6.1.tar.gz", hash = "sha256:895753e98c3f3d8d391249c636ee7af6e7181add50d7c68094e1bad69ab7d422"},
 ]
 yapf = [
     {file = "yapf-0.30.0-py2.py3-none-any.whl", hash = "sha256:3abf61ba67cf603069710d30acbc88cfe565d907e16ad81429ae90ce9651e0c9"},
