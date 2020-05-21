@@ -20,6 +20,6 @@ script:
   - yapf -dr .
   - mypy .
   - pydocstyle
-  - safety check
+  - test -n "${DJANGO_LT}" || safety check
 after_success:
   - coveralls
