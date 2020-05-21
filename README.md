@@ -14,7 +14,7 @@ Application de vote par [Jugement Majoritaire](https://fr.wikipedia.org/wiki/Jug
 
 Tested with:
 - Python 3.6, 3.7, 3.8
-- [Django](https://www.djangoproject.com/) 1.10, 1.11, 2.0, 2.1, 2.2, 3.0
+- [Django](https://www.djangoproject.com/) 2.0, 2.1, 2.2, 3.0
 
 ## Theory
 
