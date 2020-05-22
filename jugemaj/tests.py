@@ -16,6 +16,9 @@ class JugeMajTests(TestCase):
 
     def test_views(self):
         """Test the django views in the jugemaj app."""
+        initial_elections = Election.objects.count()
+        initial_candidates = Candidate.objects.count()
+
         self.assertEqual(self.client.get(reverse('jugemaj:elections')).status_code, 200)
         self.assertEqual(self.client.get(reverse('jugemaj:create_election')).status_code, 302)
         self.client.login(username='a', password='a')
@@ -28,8 +31,8 @@ class JugeMajTests(TestCase):
                 'end_1': '03:19:45',
             })
         self.assertEqual(r.status_code, 302)
-        self.assertEqual(Election.objects.count(), 1)
-        slug = Election.objects.first().slug
+        self.assertEqual(Election.objects.count(), initial_elections + 1)
+        slug = Election.objects.last().slug
         self.assertEqual(r.url, f'/election/{slug}')
         self.assertEqual(self.client.get(r.url).status_code, 200)
         self.assertEqual(self.client.get(reverse('jugemaj:election', kwargs={'slug': slug})).status_code, 200)
@@ -41,7 +44,7 @@ class JugeMajTests(TestCase):
         r = self.client.post(reverse('jugemaj:create_candidate', kwargs={'slug': slug}), {'name': 'Capitaine Zorg'})
         self.assertEqual(r.status_code, 302)
         self.assertEqual(r.url, f'/election/{slug}')
-        self.assertEqual(Candidate.objects.count(), 1)
+        self.assertEqual(Candidate.objects.count(), initial_candidates + 1)
         for name in ['Buzz l’Éclair', 'Timon et Pumba', 'Sénateur Palpatine', 'Aragorn', 'Totoro', 'Obi-Wan Kenobi']:
             r = self.client.post(reverse('jugemaj:create_candidate', kwargs={'slug': slug}), {'name': name})
         self.client.logout()
