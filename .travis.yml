@@ -11,7 +11,7 @@ jobs:
     - python: 3.8
 install:
   - pip install poetry
-  - poetry install
+  - poetry install -E example
   - test -z "${DJANGO_LT}" || pip install -U "django<${DJANGO_LT}"
 script:
   - ./manage.py migrate
