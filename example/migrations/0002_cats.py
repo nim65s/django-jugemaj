@@ -16,7 +16,8 @@ WHERE
 
 def get_all_cats(apps, schema_editor):
     WikiDataModel = apps.get_model("example", "WikiDataModel")
-    req = requests.get('https://query.wikidata.org/sparql', params={'format': 'json', 'query': QUERY})
+    prms = {'format': 'json', 'query': QUERY}
+    req = requests.get('https://query.wikidata.org/sparql', params=prms)
     for result in req.json()['results']['bindings']:
         wikidata = int(result['item']['value'].split('/')[-1][1:])
         name = result['itemLabel']['value']

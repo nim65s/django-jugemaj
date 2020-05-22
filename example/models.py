@@ -2,18 +2,13 @@
 
 from django.db import models
 
-from ndh.models import Links
 from wikidata.client import Client
 
 LANGS = ['fr', 'en']  # ordered list of langages to check on wikidata
 
 
-class WikiDataModel(models.Model, Links):
-    """
-    A django model to represent something available on wikidata.
-
-    This is populated with a list of cats in the second migration.
-    """
+class WikiDataModel(models.Model):
+    """A django model to represent something available on wikidata."""
     name = models.CharField(max_length=50, blank=True)
     wikidata = models.PositiveIntegerField()
 

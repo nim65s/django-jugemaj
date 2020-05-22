@@ -13,15 +13,19 @@ def create_election(apps, schema_editor):
     ContentType = apps.get_model('contenttypes', 'ContentType')
     WikiDataModel = apps.get_model("example", "WikiDataModel")
 
+    def type_and_id(obj):
+        """Helper to get a content type & object id of an instance for use in migrations."""
+        return {'object_id': obj.id, 'content_type': ContentType.objects.get_for_model(obj)}
+
     admin = User.objects.create(username='example_admin')
-    election = Election.objects.create(name='Cats', creator=admin, end=now() + timedelta(days=365))
+    end = now() + timedelta(days=365)
+    elec = Election.objects.create(name='Cats', creator=admin, end=end)
 
     for cat in WikiDataModel.objects.all():
-        # In a migration, we need content_type & object_id. But in usual code, this would be:
-        # Candidate.objects.create(election=election, object=cat)
-        Candidate.objects.create(election=election,
-                                 content_type=ContentType.objects.get_for_model(cat),
-                                 object_id=cat.id)
+        # In a migration, we need content_type & object_id.
+        # But in usual code, this would be:
+        # Candidate.objects.create(election=elec, object=cat)
+        Candidate.objects.create(election=elec, **type_and_id(cat))
 
 
 def delete_election(apps, schema_editor):
