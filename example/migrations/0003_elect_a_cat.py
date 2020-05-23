@@ -36,7 +36,7 @@ def delete_election(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('auth', '0011_update_proxy_permissions'),
+        ('auth', '0009_alter_user_last_name_max_length'),
         ('contenttypes', '0002_remove_content_type_name'),
         ('example', '0002_cats'),
         ('jugemaj', '0001_initial'),
