@@ -2,7 +2,7 @@
 
 from django.db import models
 
-from wikidata.client import Client
+from wikidata.client import Client  # type: ignore
 
 LANGS = ['fr', 'en']  # ordered list of langages to check on wikidata
 
