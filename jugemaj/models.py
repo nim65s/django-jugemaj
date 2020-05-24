@@ -3,7 +3,7 @@ from enum import IntEnum
 from functools import cmp_to_key
 
 from django.conf import settings
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.urls import reverse
@@ -80,7 +80,6 @@ class Candidate(models.Model):
             return (0, 10, 0)
         mention = self.vote_set.order_by('choice')[count // 2].choice
         if mention is None:
-            print(self.vote_set.order_by('choice'))
             mention = 6
         return (self.vote_set.filter(choice__gt=mention).count() / count, mention,
                 self.vote_set.filter(choice__lt=mention).count() / count)
@@ -95,9 +94,7 @@ class Candidate(models.Model):
 
 class NamedCandidate(NamedModel, TimeStampedModel):
     """A common model to be used as a Candidate object."""
-    def get_absolute_url(self):
-        """TODO."""
-        return reverse('jugemaj:candidate', kwargs={'slug': self.slug})
+    candidates = GenericRelation(Candidate)
 
 
 class Vote(TimeStampedModel):
@@ -113,3 +110,7 @@ class Vote(TimeStampedModel):
     def __str__(self):
         """Describe an elector rating."""
         return f'vote de {self.elector} pour {self.candidate}: {self.choice}'
+
+    def get_absolute_url(self):
+        """Let an elector a choice for a candidate."""
+        return reverse('jugemaj:vote', kwargs={'pk': self.pk})

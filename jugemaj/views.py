@@ -1,13 +1,11 @@
 """Views for django-jugemaj."""
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic import CreateView, DetailView, ListView
+from django.shortcuts import get_object_or_404
+from django.views.generic import CreateView, DetailView, ListView, UpdateView
 
-from ndh.mixins import SuperUserRequiredMixin
+from ndh.mixins import NDHFormMixin, SuperUserRequiredMixin
 
-from .forms import ElectionForm, VoteFormSet
+from .forms import ElectionForm
 from .models import Candidate, Election, NamedCandidate, Vote
 
 
@@ -21,7 +19,7 @@ class ElectionListView(ListView):
     model = Election
 
 
-class ElectionCreateView(SuperUserRequiredMixin, CreateView):
+class ElectionCreateView(SuperUserRequiredMixin, NDHFormMixin, CreateView):
     """View to create an Election."""
     model = Election
     form_class = ElectionForm
@@ -32,7 +30,7 @@ class ElectionCreateView(SuperUserRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class CandidateCreateView(LoginRequiredMixin, CreateView):
+class CandidateCreateView(LoginRequiredMixin, NDHFormMixin, CreateView):
     """View to create a Candidate to an Election."""
     model = NamedCandidate
     fields = ("name", )
@@ -49,22 +47,7 @@ class CandidateCreateView(LoginRequiredMixin, CreateView):
         return get_object_or_404(Election, slug=self.kwargs.get("slug")).get_absolute_url()
 
 
-@login_required
-def vote(request, slug):
-    """View to let a user vote."""
-    election = get_object_or_404(Election, slug=slug)
-    candidates = {}
-    for candidate in election.candidate_set.all():
-        Vote.objects.get_or_create(elector=request.user, candidate=candidate)
-        candidates[candidate.pk] = candidate.content_object.name
-    votes = Vote.objects.filter(elector=request.user, candidate__election=election)
-    if request.method == "POST":
-        formset = VoteFormSet(request.POST, queryset=votes)
-        if formset.is_valid():
-            formset.save()
-            messages.success(request, "Votre vote a été enregistré")
-            return redirect(election)
-        messages.error(request, "Corrigez les erreurs")
-    else:
-        formset = VoteFormSet(queryset=votes)
-    return render(request, "jugemaj/vote.html", {"formset": formset, "candidates": candidates})
+class VoteView(LoginRequiredMixin, NDHFormMixin, UpdateView):
+    """Views to let users vote for a Candidate."""
+    model = Vote
+    fields = ("choice", )
