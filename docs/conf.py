@@ -59,6 +59,8 @@ html_static_path: List[str] = []
 # For RTD
 master_doc = 'index'
 
+html_sidebars = {'**': ['globaltoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html']}
+
 
 def setup(app):
     """Override the default conf for recommonmark."""
