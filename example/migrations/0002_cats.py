@@ -4,24 +4,24 @@ from django.db import migrations
 
 import requests
 
-QUERY = """
-SELECT ?item ?itemLabel
-WHERE
-{
+QUERY_CATS = """
+SELECT ?item ?itemLabel WHERE {
   ?item wdt:P31 wd:Q146.
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". }
-}
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en". } }
 """
 
 
 def get_all_cats(apps, schema_editor):
     WikiDataModel = apps.get_model("example", "WikiDataModel")
-    prms = {'format': 'json', 'query': QUERY}
-    req = requests.get('https://query.wikidata.org/sparql', params=prms)
+
+    def wikidata_url_to_id(url: str) -> int:
+        """Get a wikidata URL and return the wikidata ID."""
+        return int(url.split('/')[-1][1:])  # The ID is a string with Q and an int. keep only the int.
+
+    req = requests.get('https://query.wikidata.org/sparql', params={'format': 'json', 'query': QUERY_CATS})
     for result in req.json()['results']['bindings']:
-        wikidata = int(result['item']['value'].split('/')[-1][1:])
-        name = result['itemLabel']['value']
-        WikiDataModel.objects.create(name=name, wikidata=wikidata)
+        WikiDataModel.objects.create(name=result['itemLabel']['value'],
+                                     wikidata=wikidata_url_to_id(result['item']['value']))
 
 
 def delete_all_cats(apps, schema_editor):

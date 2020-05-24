@@ -39,7 +39,7 @@ And to populate it:
 ```eval_rst
 .. literalinclude:: ../example/migrations/0002_cats.py
    :language: python
-   :lines: 19-24
+   :lines: 21-24
    :dedent: 4
 ```
 
@@ -48,7 +48,7 @@ Next, we can create an Election instance
 ```eval_rst
 .. literalinclude:: ../example/migrations/0003_elect_a_cat.py
    :language: python
-   :lines: 20-22
+   :lines: 20-21
    :dedent: 4
 ```
 
@@ -57,6 +57,6 @@ And declare our cats as candidates for it:
 ```eval_rst
 .. literalinclude:: ../example/migrations/0003_elect_a_cat.py
    :language: python
-   :lines: 24-28
+   :lines: 23-27
    :dedent: 4
 ```
