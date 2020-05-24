@@ -19,7 +19,8 @@ Keys](https://docs.djangoproject.com/en/3.0/ref/contrib/contenttypes/).
 ## Example
 
 This app comes with a `testproject` django project to run tests, and an
-`example` app to showcase how to use the `jugemaj` app.
+`example` app to showcase how to use the `jugemaj` app. We'll show here
+some parts extracted from the `example` app.
 
 
 So let's start by creating one model. Let's say we want a list of cats from
