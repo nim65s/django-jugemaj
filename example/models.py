@@ -9,7 +9,7 @@ LANGS = ['fr', 'en']  # ordered list of langages to check on wikidata
 
 class WikiDataModel(models.Model):
     """A django model to represent something available on wikidata."""
-    name = models.CharField(max_length=50, blank=True)
+    name = models.CharField(max_length=50)
     wikidata = models.PositiveIntegerField()
 
     def __str__(self):
