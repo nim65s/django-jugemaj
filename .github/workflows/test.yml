@@ -1,0 +1,32 @@
+name: Tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6,3.7,3.8,3.9]
+        include:
+          - python-version: 3.6
+            django-lt: 2.1
+          - python-version: 3.7
+            django-lt: 2.2
+          - python-version: 3.8
+            django-lt: 3.0
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: setup
+        run: |
+          pip install -U poetry setuptools
+          poetry config virtualenvs.create false --local
+          poetry install --no-interaction --no-ansi -E example
+          test -z "${{ matrix.django-lt }}" || pip install -U "django<${{ matrix.django-lt }}"
+      - run: python -Wa ./manage.py migrate
+      - run: PYTHONWARNINGS=always coverage run manage.py test
+      - run: pip install "git+https://github.com/${GITHUB_REPOSITORY}.git#egg=comptes"
+
+      - uses: codecov/codecov-action@v1
