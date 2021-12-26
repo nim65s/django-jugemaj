@@ -25,6 +25,6 @@ jobs:
           test -z "${{ matrix.django-lt }}" || python -m pip install -U "django<${{ matrix.django-lt }}"
       - run: python -Wa ./manage.py migrate
       - run: PYTHONWARNINGS=always coverage run manage.py test
-      - run: pip install "git+https://github.com/${GITHUB_REPOSITORY}.git#egg=jugemaj"
+      - run: pip install "git+https://github.com/${GITHUB_REPOSITORY}.git#egg=django-jugemaj"
 
       - uses: codecov/codecov-action@v1
