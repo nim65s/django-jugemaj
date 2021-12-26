@@ -937,7 +937,7 @@ example = ["wikidata", "requests", "types-requests"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "3cf6bf44520feb6e7ece24cfcc76dbf6a8ca59994c98420d4d10be52215f3c96"
+content-hash = "c7647b16566db9bbca96d3a3046ebbc9832f008e70af9f7cbe108b9cffe5fc87"
 
 [metadata.files]
 alabaster = [
