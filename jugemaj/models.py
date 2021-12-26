@@ -1,5 +1,4 @@
 """Django models for the jugemaj app."""
-from enum import IntEnum
 from functools import cmp_to_key
 
 from django.conf import settings
@@ -7,11 +6,10 @@ from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelatio
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.urls import reverse
-
 from ndh.models import NamedModel, TimeStampedModel
-from ndh.utils import enum_to_choices
 
-CHOICES = IntEnum("choix", "Super Bien OK Passable Insuffisant Nul")
+# ref https://github.com/typeddjango/django-stubs/issues/729
+CHOICES = models.IntegerChoices("choix", "Super Bien OK Passable Insuffisant Nul")  # type: ignore
 
 
 def sort_candidates(a, b):
@@ -44,6 +42,7 @@ def sort_candidates(a, b):
 
 class Election(NamedModel, TimeStampedModel):
     """Main model for the jugemaj app."""
+
     description = models.TextField()
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     end = models.DateTimeField("fin")
@@ -51,7 +50,7 @@ class Election(NamedModel, TimeStampedModel):
 
     def get_absolute_url(self):
         """Reverse to the detail view for this instance."""
-        return reverse('jugemaj:election', kwargs={'slug': self.slug})
+        return reverse("jugemaj:election", kwargs={"slug": self.slug})
 
     def results(self):
         """Get the sorted list of all Candidates for this Election."""
@@ -60,10 +59,11 @@ class Election(NamedModel, TimeStampedModel):
 
 class Candidate(models.Model):
     """An Election as Candidate as choices."""
+
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
+    content_object = GenericForeignKey("content_type", "object_id")
 
     def __str__(self):
         """Print the candidate."""
@@ -78,39 +78,49 @@ class Candidate(models.Model):
         count = self.vote_set.count()
         if not count:
             return (0, 10, 0)
-        mention = self.vote_set.order_by('choice')[count // 2].choice
+        mention = self.vote_set.order_by("choice")[count // 2].choice
         if mention is None:
             mention = 6
-        return (self.vote_set.filter(choice__gt=mention).count() / count, mention,
-                self.vote_set.filter(choice__lt=mention).count() / count)
+        return (
+            self.vote_set.filter(choice__gt=mention).count() / count,
+            mention,
+            self.vote_set.filter(choice__lt=mention).count() / count,
+        )
 
     def votes(self):
         """Get the list of the votes for this Candidate."""
         count = self.vote_set.count()
         if count:
-            return [self.vote_set.filter(choice=i).count() * 100 / count for i in CHOICES]
+            return [
+                self.vote_set.filter(choice=i).count() * 100 / count for i in CHOICES
+            ]
         return [0] * len(CHOICES)
 
 
 class NamedCandidate(NamedModel, TimeStampedModel):
     """A common model to be used as a Candidate object."""
+
     candidates = GenericRelation(Candidate)
 
 
 class Vote(TimeStampedModel):
     """In an Election, each elector can give a rating to each Candidate."""
-    elector = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+
+    elector = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True
+    )
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
-    choice = models.IntegerField("choix", choices=enum_to_choices(CHOICES), null=True)
+    choice = models.IntegerField("choix", choices=CHOICES.choices, null=True)
 
     class Meta:
         """An elector has only one rating on each Candidate."""
-        unique_together = ('elector', 'candidate')
+
+        unique_together = ("elector", "candidate")
 
     def __str__(self):
         """Describe an elector rating."""
-        return f'vote de {self.elector} pour {self.candidate}: {self.choice}'
+        return f"vote de {self.elector} pour {self.candidate}: {self.choice}"
 
     def get_absolute_url(self):
         """Let an elector a choice for a candidate."""
-        return reverse('jugemaj:vote', kwargs={'pk': self.pk})
+        return reverse("jugemaj:vote", kwargs={"pk": self.pk})

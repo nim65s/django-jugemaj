@@ -16,12 +16,19 @@ def get_all_cats(apps, schema_editor):
 
     def wikidata_url_to_id(url: str) -> int:
         """Get a wikidata URL and return the wikidata ID."""
-        return int(url.split('/')[-1][1:])  # The ID is a string with Q and an int. keep only the int.
+        return int(
+            url.split("/")[-1][1:]
+        )  # The ID is a string with Q and an int. keep only the int.
 
-    req = requests.get('https://query.wikidata.org/sparql', params={'format': 'json', 'query': QUERY_CATS})
-    for result in req.json()['results']['bindings']:
-        WikiDataModel.objects.create(name=result['itemLabel']['value'],
-                                     wikidata=wikidata_url_to_id(result['item']['value']))
+    req = requests.get(
+        "https://query.wikidata.org/sparql",
+        params={"format": "json", "query": QUERY_CATS},
+    )
+    for result in req.json()["results"]["bindings"]:
+        WikiDataModel.objects.create(
+            name=result["itemLabel"]["value"],
+            wikidata=wikidata_url_to_id(result["item"]["value"]),
+        )
 
 
 def delete_all_cats(apps, schema_editor):
@@ -32,7 +39,7 @@ def delete_all_cats(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('example', '0001_initial'),
+        ("example", "0001_initial"),
     ]
 
     operations = [

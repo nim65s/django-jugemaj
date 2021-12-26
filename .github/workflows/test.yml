@@ -5,14 +5,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6,3.7,3.8,3.9]
+        python-version: [3.8,3.9]
         include:
-          - python-version: 3.6
-            django-lt: 2.1
-          - python-version: 3.7
-            django-lt: 2.2
           - python-version: 3.8
-            django-lt: 3.0
+            django-lt: 2.3
+          - python-version: 3.9
+            django-lt: 5.0
     steps:
       - uses: actions/checkout@v2
 
@@ -21,10 +19,10 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: setup
         run: |
-          pip install -U poetry setuptools
+          python -m pip install -U poetry
           poetry config virtualenvs.create false --local
           poetry install --no-interaction --no-ansi -E example
-          test -z "${{ matrix.django-lt }}" || pip install -U "django<${{ matrix.django-lt }}"
+          test -z "${{ matrix.django-lt }}" || python -m pip install -U "django<${{ matrix.django-lt }}"
       - run: python -Wa ./manage.py migrate
       - run: PYTHONWARNINGS=always coverage run manage.py test
       - run: pip install "git+https://github.com/${GITHUB_REPOSITORY}.git#egg=comptes"

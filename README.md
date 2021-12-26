@@ -1,23 +1,25 @@
 # Jugement Majoritaire
+
 [![Documentation Status](https://readthedocs.org/projects/django-jugemaj/badge/?version=latest)](https://django-jugemaj.readthedocs.io/en/latest/?badge=latest)
 [![PyPI version](https://badge.fury.io/py/django-jugemaj.svg)](https://pypi.org/project/django-jugemaj)
-[![Build Status](https://travis-ci.org/nim65s/django-jugemaj.svg?branch=master)](https://travis-ci.org/nim65s/django-jugemaj)
+[![Tests](https://github.com/nim65s/django-jugemaj/actions/workflows/test.yml/badge.svg)](https://github.com/nim65s/django-jugemaj/actions/workflows/test.yml)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/nim65s/django-jugemaj/master.svg)](https://results.pre-commit.ci/latest/github/nim65s/django-jugemaj/master)
 [![codecov](https://codecov.io/gh/nim65s/django-jugemaj/branch/master/graph/badge.svg?token=Z5AEN8BA0F)](https://codecov.io/gh/nim65s/django-jugemaj)
-
+[![Maintainability](https://api.codeclimate.com/v1/badges/6737a84239590ddc0d1e/maintainability)](https://codeclimate.com/github/nim65s/django-jugemaj/maintainability)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Application de vote par [Jugement Majoritaire](https://fr.wikipedia.org/wiki/Jugement_majoritaire).
-
 
 ## Requirements
 
 - [ndh](https://pypi.python.org/pypi/ndh)
     - [django](https://www.djangoproject.com/)
     - [django-autoslug](https://github.com/justinmayer/django-autoslug/)
-    - [django-bootstrap4](https://github.com/zostera/django-bootstrap4) (can be made optional on request))
+    - [django-bootstrap5](https://github.com/zostera/django-bootstrap5) (can be made optional on request))
 
 Tested with:
-- Python 3.6, 3.7, 3.8
-- [Django](https://www.djangoproject.com/) 2.0, 2.1, 2.2, 3.0
+- Python 3.8, 3.9
+- [Django](https://www.djangoproject.com/) 2.2+
 
 ## Theory
 

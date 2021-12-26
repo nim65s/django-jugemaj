@@ -20,24 +20,24 @@ import django
 from recommonmark.transform import AutoStructify  # type: ignore
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "testproject.settings")
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath(".."))
 django.setup()
 
 # -- Project information -----------------------------------------------------
 
-project = 'django-jugemaj'
-copyright = '2020, Guilhem Saurel'
-author = 'Guilhem Saurel'
+project = "django-jugemaj"
+copyright = "2020, Guilhem Saurel"
+author = "Guilhem Saurel"
 
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.mathjax', 'recommonmark']
+extensions = ["sphinx.ext.autodoc", "sphinx.ext.mathjax", "recommonmark"]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -49,7 +49,7 @@ exclude_patterns: List[str] = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'classic'
+html_theme = "classic"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -57,17 +57,23 @@ html_theme = 'classic'
 html_static_path: List[str] = []
 
 # For RTD
-master_doc = 'index'
+master_doc = "index"
 
-html_sidebars = {'**': ['globaltoc.html', 'relations.html', 'sourcelink.html', 'searchbox.html']}
+html_sidebars = {
+    "**": ["globaltoc.html", "relations.html", "sourcelink.html", "searchbox.html"]
+}
 
 
 def setup(app):
     """Override the default conf for recommonmark."""
-    app.add_config_value('recommonmark_config', {
-        'auto_toc_tree_section': 'Contents',
-        'enable_math': True,
-        'enable_inline_math': True,
-        'enable_eval_rst': True,
-    }, True)
+    app.add_config_value(
+        "recommonmark_config",
+        {
+            "auto_toc_tree_section": "Contents",
+            "enable_math": True,
+            "enable_inline_math": True,
+            "enable_eval_rst": True,
+        },
+        True,
+    )
     app.add_transform(AutoStructify)

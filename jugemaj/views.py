@@ -11,16 +11,19 @@ from .models import Candidate, Election, NamedCandidate, Vote
 
 class ElectionDetailView(DetailView):
     """View to detail an Election."""
+
     model = Election
 
 
 class ElectionListView(ListView):
     """View to list Elections."""
+
     model = Election
 
 
 class ElectionCreateView(SuperUserRequiredMixin, NDHFormMixin, CreateView):
     """View to create an Election."""
+
     model = Election
     form_class = ElectionForm
 
@@ -32,8 +35,9 @@ class ElectionCreateView(SuperUserRequiredMixin, NDHFormMixin, CreateView):
 
 class CandidateCreateView(LoginRequiredMixin, NDHFormMixin, CreateView):
     """View to create a Candidate to an Election."""
+
     model = NamedCandidate
-    fields = ("name", )
+    fields = ("name",)
 
     def form_valid(self, form):
         """Set the right Election for this Candidate."""
@@ -44,10 +48,13 @@ class CandidateCreateView(LoginRequiredMixin, NDHFormMixin, CreateView):
 
     def get_success_url(self):
         """Redirect to the Election page."""
-        return get_object_or_404(Election, slug=self.kwargs.get("slug")).get_absolute_url()
+        return get_object_or_404(
+            Election, slug=self.kwargs.get("slug")
+        ).get_absolute_url()
 
 
 class VoteView(LoginRequiredMixin, NDHFormMixin, UpdateView):
     """Views to let users vote for a Candidate."""
+
     model = Vote
-    fields = ("choice", )
+    fields = ("choice",)
